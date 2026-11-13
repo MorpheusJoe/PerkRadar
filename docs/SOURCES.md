@@ -15,6 +15,9 @@ URL 写死在 `src/lib/source-defs.ts`，调用方不能替换。每个来源另
 | `appinn` | 小众软件 | `https://www.appinn.com/feed/` | `appinn.com` | RSS/Atom | feed 条目 | 无 |
 | `ghxi` | 果核剥壳 | `https://www.ghxi.com/feed` | `ghxi.com` | RSS/Atom | feed 条目 | 无 |
 | `iplaysoft` | 异次元软件世界 | `https://www.iplaysoft.com/feed` | `iplaysoft.com` | RSS/Atom | 请求会 301，跟随到最终地址 | 无 |
+| `lanmao` | 懒猫免费额度 | `https://lanmao.ai/zh/offers.md` | `lanmao.ai` | Markdown 表格 | 每行一条：名字、免费额度、门槛、地区、核实日期、站内详情页；标题由名字与免费额度组成，日期取该行核实日期；解析不到整源失败 | 无 |
+| `jidan` | 赛博鸡蛋 | `https://jidan.si/rss.xml` | `jidan.si` | RSS | feed 条目；分类页无逐条日期，改用站内 RSS | 无 |
+| `baipiaoji` | 白嫖计 | `https://baipiaoji.com/limits.json` | `baipiaoji.com` | JSON | 解析 `tools` 列表，标题由名字与免费额度组成，日期取文件 `generated`；工具列表缺失或为空视为上游异常、该源失败 | 无 |
 
 综合源收录落在 7 天窗口、且链接在本源允许域名内的条目，包含闲聊、求购、抽奖与软件新闻；它们只是线索，不是已核实的优惠。发布时间早于 2000-01-01 或晚于当前时刻 +7 天视为无效（`published_at` 为 `null`，留存改用 `first_seen_at`），单个 feed 最多解析前 2000 条。日期校验也适用于LINUX DO；分类在读时评分重算（可回退），规则、时间边界与每轮验收见 [DATA_QUALITY.md](DATA_QUALITY.md)。
 
@@ -26,11 +29,16 @@ URL 写死在 `src/lib/source-defs.ts`，调用方不能替换。每个来源另
 
 ## 使用条件核查状态
 
-核查日期：2026-11-08。下表记录的是**当前能确认的事实**，不是授权结论。
+核查日期：原 7 个来源 2026-11-08；懒猫 / 赛博鸡蛋 / 白嫖计 2026-11-13。下表记录的是**当前能确认的事实**，不是授权结论。
 
 | 来源 | 公开可访问 | 书面条款核查 | 结论 |
 | --- | --- | --- | --- |
-| 7 个来源 | 是（按上表 URL 可读取） | **未完成逐站书面核查** | 仅按「读取公开 feed、保留原文链接、只存短摘要」的最低限度使用；维护者需按各站 ToS / robots 逐条复核后再扩大用途 |
+| 原 7 个来源 | 是（按上表 URL 可读取） | **未完成逐站书面核查** | 仅按「读取公开 feed、保留原文链接、只存短摘要」的最低限度使用；维护者需按各站 ToS / robots 逐条复核后再扩大用途 |
+| 懒猫免费额度 | 是 | robots.txt `Allow: /`，站方 `/for-agents` 明确欢迎 AI agent 读取机器可读版本 | 同上最低限度使用；标题由名字与免费额度两字段组成，不补写来源没有的价格或条件 |
+| 赛博鸡蛋 | 是 | robots.txt `Allow: /`（仅禁 `/api/`、`/go/` 与搜索参数） | 同上最低限度使用；使用站内 RSS，不抓分类页 |
+| 白嫖计 | 是 | robots.txt `Allow: /`；`limits.json` 声明 CC BY 4.0，要求注明来源并附回链到对应工具页 | 同上最低限度使用；看板显示来源名，每条链接到对应工具页，满足署名与回链要求 |
+
+未接入的来源：aihot.news/free-tokens（2026-11-13 核查）。该页条目没有站内详情页，领取链接全部指向第三方域名，会被允许域名规则逐条丢弃；其站内 sitemap 也只含列表页本身。不要以放宽允许域名的方式强行接入。
 
 因此：
 

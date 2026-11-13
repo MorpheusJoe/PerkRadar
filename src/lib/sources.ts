@@ -4,6 +4,8 @@ import { logEvent } from "./log";
 import { parseEpicFreeGames } from "./parse/epic";
 import { parseFeed } from "./parse/feed";
 import { parseLinuxDoMarkdown } from "./parse/linuxdo";
+import { parseLanmaoOffers } from "./parse/lanmao";
+import { parseBaipiaojiLimits } from "./parse/baipiaoji";
 import { SOURCE_DEFS, type SourceDef } from "./source-defs";
 import type { ParsedItem } from "./types";
 import { readFileSync } from "fs";
@@ -64,6 +66,16 @@ export async function loadSource(
       throw new Error("Epic 响应不是 JSON");
     }
     items = parseEpicFreeGames(payload, ctx.now);
+  } else if (source.id === "lanmao") {
+    items = parseLanmaoOffers(fetched.body, ctx.now);
+  } else if (source.id === "baipiaoji") {
+    let payload: unknown;
+    try {
+      payload = JSON.parse(fetched.body);
+    } catch {
+      throw new Error("白嫖计响应不是 JSON");
+    }
+    items = parseBaipiaojiLimits(payload, ctx.now);
   } else {
     items = parseFeed(fetched.body, ctx.now);
   }

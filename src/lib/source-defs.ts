@@ -11,6 +11,9 @@ export type SourceDef = {
  * V2EX must be the plural `promotions.xml`. `promotion.xml` returns an empty feed.
  * LINUX DO must go through the Jina reader. Direct category RSS is not used.
  * 异次元 is requested at the URL that 301-redirects; the client follows it.
+ * jidan uses the site RSS: the /c/credit category page has no per-item dates.
+ * lanmao is a Markdown table; each row's date is its own verification date.
+ * baipiaoji is limits.json; the file's `generated` date is every item's date.
  */
 export const SOURCE_DEFS: SourceDef[] = [
   {
@@ -54,6 +57,24 @@ export const SOURCE_DEFS: SourceDef[] = [
     name: "异次元软件世界",
     url: "https://www.iplaysoft.com/feed",
     allowedHosts: ["iplaysoft.com"],
+  },
+  {
+    id: "lanmao",
+    name: "懒猫免费额度",
+    url: "https://lanmao.ai/zh/offers.md",
+    allowedHosts: ["lanmao.ai"],
+  },
+  {
+    id: "jidan",
+    name: "赛博鸡蛋",
+    url: "https://jidan.si/rss.xml",
+    allowedHosts: ["jidan.si"],
+  },
+  {
+    id: "baipiaoji",
+    name: "白嫖计",
+    url: "https://baipiaoji.com/limits.json",
+    allowedHosts: ["baipiaoji.com"],
   },
 ];
 

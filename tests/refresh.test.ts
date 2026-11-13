@@ -99,6 +99,33 @@ function bodies(overrides: Record<string, string> = {}): Record<string, string> 
         description: "SYNTHETIC summary",
       },
     ]),
+    lanmao: [
+      "名字 | 免费额度 | 门槛 | 地区 | 核实日期 | 详情",
+      "SYNTHETIC 模型 | 免费层每天 1,000 次调用 | 邮箱注册 | 海外 | 2026-11-07 | https://lanmao.ai/zh/o/synthetic/",
+    ].join("\n"),
+    jidan: rssFeed([
+      {
+        title: "SYNTHETIC 免费 GPU",
+        link: "https://jidan.si/free/999-synthetic",
+        pubDate: "Sat, 07 Nov 2026 00:00:00 +0000",
+        description: "SYNTHETIC summary",
+      },
+    ]),
+    baipiaoji: JSON.stringify({
+      generated: "2026-11-07",
+      count: 1,
+      tools: [
+        {
+          slug: "synthetic",
+          name: "SYNTHETIC 工具",
+          category: "chat",
+          quota: "免费对话不限量",
+          wall: "免费档无公布上限",
+          checked: "2026-08-13",
+          page: "https://baipiaoji.com/tools/synthetic",
+        },
+      ],
+    }),
     ...overrides,
   };
 }
@@ -114,6 +141,9 @@ function fetchFrom(map: Record<string, string>, fail: string[] = []): FetchLike 
       if (name === "appinn") return url.includes("appinn.com");
       if (name === "ghxi") return url.includes("ghxi.com");
       if (name === "iplaysoft") return url.includes("iplaysoft.com");
+      if (name === "lanmao") return url.includes("lanmao.ai");
+      if (name === "jidan") return url.includes("jidan.si");
+      if (name === "baipiaoji") return url.includes("baipiaoji.com");
       return false;
     });
     if (!key) throw new Error(`unexpected url ${url}`);
@@ -149,7 +179,7 @@ describe("refresh", { concurrency: false }, () => {
     assert.equal(game?.expiresLabel, "2026-11-10 08:00");
     assert.equal(board.sources.find((source) => source.id === "iplaysoft")?.lastFinalUrl, "https://feed.iplaysoft.com/");
     assert.equal(board.newCount, board.deals.length);
-    assert.equal(board.sourceHealth.ok, 7);
+    assert.equal(board.sourceHealth.ok, 10);
     assert.equal(board.refreshInProgress, false);
 
     const second = await runRefresh({
@@ -205,7 +235,7 @@ describe("refresh", { concurrency: false }, () => {
     assert.equal(failure?.error, "HTTP 503");
     assert.equal(after.deals.find((item) => item.id === before!.id)?.isNew, false);
     assert.equal(after.roundStatus, "partial");
-    assert.equal(after.sourceHealth.ok, 6);
+    assert.equal(after.sourceHealth.ok, 9);
   });
 
   it("removes an Epic game that is no longer free without touching a failed Epic round", async () => {
@@ -303,7 +333,7 @@ describe("refresh", { concurrency: false }, () => {
     });
     assert.equal(listDeals().length, before);
     assert.equal(board.roundStatus, "failed");
-    assert.equal(board.failures.length, 7);
+    assert.equal(board.failures.length, 10);
     assert.ok(board.failures.every((failure) => failure.error === "超时"));
     assert.equal(board.newCount, 0);
   });

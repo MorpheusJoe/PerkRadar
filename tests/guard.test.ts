@@ -17,7 +17,10 @@ describe("guards and source URLs", () => {
     assert.equal(byId.linuxdo, "https://r.jina.ai/https://linux.do/c/welfare/36.rss");
     assert.equal(byId.v2ex, "https://www.v2ex.com/feed/promotions.xml");
     assert.equal(byId.iplaysoft, "https://www.iplaysoft.com/feed");
-    assert.equal(SOURCE_DEFS.length, 7);
+    assert.equal(byId.lanmao, "https://lanmao.ai/zh/offers.md");
+    assert.equal(byId.jidan, "https://jidan.si/rss.xml");
+    assert.equal(byId.baipiaoji, "https://baipiaoji.com/limits.json");
+    assert.equal(SOURCE_DEFS.length, 10);
     assert.equal(
       SOURCE_DEFS.some((source) => source.url.endsWith("/feed/promotion.xml")),
       false,

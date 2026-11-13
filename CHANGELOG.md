@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+- 来源：新增懒猫免费额度（Markdown 表格）、赛博鸡蛋（RSS）、白嫖计（limits.json）三个固定来源，来源总数 7 → 10；aihot.news/free-tokens 未接入（条目无站内详情页，领取链接全部指向第三方域名，会被允许域名规则丢弃）。
+
 - 安全：npm 默认回环监听；可选 PERKRADAR_ACCESS_TOKEN、签名会话和 Bearer 保护网页/数据/刷新 API；补 TLS 代理模板和登录限流。
 - 数据质量：分类改信号评分并读时重算（可回退）；修 Pro/更新/问号误判，默认显示全部、搜索不隐藏其他。Epic 逐条结构验证，异常不清旧记录；所有文本源共享日期防护。
 - 稳定性：429/503 有限退避、尊重 Retry-After、短时熔断和 Jina 配置诊断；SQLite scheduler/refresh 租约与心跳、重启超期只补一轮。
